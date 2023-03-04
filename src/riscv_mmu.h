@@ -116,7 +116,7 @@ static inline vaddr_t riscv_align_addr(vaddr_t addr, size_t size)
 static inline bool riscv_fetch_inst(rvvm_hart_t* vm, vaddr_t addr, uint32_t* inst)
 {
     vaddr_t vpn = addr >> PAGE_SHIFT;
-    if (likely(vm->tlb[vpn & TLB_MASK].e == vpn)) {
+    if (false) {
         *inst = read_uint16_le_m((void*)(size_t)(vm->tlb[vpn & TLB_MASK].ptr + TLB_VADDR(addr)));
         if ((*inst & 0x3) == 0x3) {
             // This is a 4-byte instruction, force tlb lookup again

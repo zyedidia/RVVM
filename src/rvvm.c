@@ -301,6 +301,10 @@ PUBLIC rvvm_machine_t* rvvm_create_machine(rvvm_addr_t mem_base, size_t mem_size
         free(machine);
         return NULL;
     }
+    if (!kx_fence_init(&machine->kx_fence, mem_base, mem_size)) {
+        free(machine);
+        return NULL;
+    }
     vector_init(machine->harts);
     vector_init(machine->mmio);
     for (size_t i=0; i<hart_count; ++i) {

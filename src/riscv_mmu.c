@@ -452,6 +452,13 @@ static bool riscv_mmu_op(rvvm_hart_t* vm, vaddr_t addr, void* dest, uint8_t size
 
     if (riscv_mmu_translate(vm, addr, &paddr, access)) {
         //rvvm_info("Hart %p accessing physmem at 0x%08x", vm, paddr);
+
+        if (access == MMU_WRITE) {
+            kx_fence_on_store(&vm->machine->kx_fence, paddr);
+        } else if (access == MMU_EXEC) {
+            kx_fence_on_exec(&vm->machine->kx_fence, paddr);
+        }
+
         ptr = riscv_phys_translate(vm, paddr);
         if (ptr) {
             // Physical address in main memory, cache address translation

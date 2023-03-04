@@ -233,7 +233,8 @@ TSAN_SUPPRESS void riscv_run_till_event(rvvm_hart_t* vm)
     while (likely(vm->wait_event)) {
         vm->registers[REGISTER_ZERO] = 0;
         inst_addr = vm->registers[REGISTER_PC];
-        if (likely(inst_addr - page_addr < 0xFFD)) {
+        /* if (likely(inst_addr - page_addr < 0xFFD)) { */
+        if (false) {
             riscv_emulate(vm, read_uint32_le_m((vmptr_t)(size_t)(inst_ptr + TLB_VADDR(inst_addr))));
 #ifndef __llvm__
             vm->registers[REGISTER_ZERO] = 0;

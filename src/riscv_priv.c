@@ -24,6 +24,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "bit_ops.h"
 #include "atomics.h"
 
+#include "kx_fence.h"
+
 static void riscv_priv_system(rvvm_hart_t* vm, const uint32_t instruction)
 {
     switch (instruction) {
@@ -131,6 +133,8 @@ static void riscv_i_fence(rvvm_hart_t* vm, const uint32_t instruction)
 
 static void riscv_i_zifence(rvvm_hart_t* vm, const uint32_t instruction)
 {
+    kx_fence_on_fence(&vm->machine->kx_fence);
+
     UNUSED(instruction);
 #ifdef USE_JIT
     if (rvvm_has_arg("rvjit_harward")) {
