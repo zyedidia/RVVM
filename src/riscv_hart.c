@@ -25,9 +25,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "atomics.h"
 #include "bit_ops.h"
 
-void riscv_hart_init(rvvm_hart_t* vm, bool rv64)
+#include "kx_fence.h"
+
+#include <stdio.h>
+
+void riscv_hart_init(rvvm_hart_t* vm, bool rv64, uintptr_t mem_base, size_t mem_size)
 {
     memset(vm, 0, sizeof(rvvm_hart_t));
+
+    if (!kx_fence_init(&vm->kx_fence, mem_base, mem_size)) {
+        printf("kx_fence: out of memory\n");
+        abort();
+    }
+
     riscv_tlb_flush(vm);
     vm->priv_mode = PRIVILEGE_MACHINE;
     // Delegate exceptions from M to S

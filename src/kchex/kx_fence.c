@@ -25,12 +25,13 @@ void kx_fence_on_store(kx_fence_t* ck, uintptr_t pa) {
     ck->touched[pa - ck->membase] = true;
 }
 
-void kx_fence_on_exec(kx_fence_t* ck, uintptr_t pa) {
+void kx_fence_on_exec(kx_fence_t* ck, uintptr_t va, uintptr_t pa) {
     if (pa < ck->membase || pa >= ck->membase + ck->memsize) {
         return;
     }
     if (ck->touched[pa - ck->membase]) {
-        kx_panic("executed instruction without preceding fence");
+        printf("kx_fence: va: 0x%lx, pa 0x%lx\n", va, pa);
+        kx_panic("kx_fence: executed instruction without preceding fence");
     }
 }
 

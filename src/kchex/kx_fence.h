@@ -12,5 +12,5 @@ typedef struct {
 
 bool kx_fence_init(kx_fence_t* ck, uintptr_t membase, size_t memsize);
 void kx_fence_on_store(kx_fence_t* ck, uintptr_t pa);
-void kx_fence_on_exec(kx_fence_t* ck, uintptr_t pa);
+void kx_fence_on_exec(kx_fence_t* ck, uintptr_t va, uintptr_t pa);
 void kx_fence_on_fence(kx_fence_t* ck);

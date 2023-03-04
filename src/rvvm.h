@@ -31,6 +31,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "rvtimer.h"
 #include "threading.h"
 #include "blk_io.h"
+
 #include "kx_fence.h"
 
 #ifdef USE_JIT
@@ -216,6 +217,8 @@ struct rvvm_hart_t {
     uint8_t priv_mode;
     bool rv64;
     bool trap;
+
+    kx_fence_t kx_fence;
     
     bool user_traps;
     
@@ -264,8 +267,6 @@ struct rvvm_machine_t {
     uint32_t running;
     uint32_t power_state;
     bool rv64;
-
-    kx_fence_t kx_fence;
 
     rvfile_t* bootrom_file;
     rvfile_t* kernel_file;

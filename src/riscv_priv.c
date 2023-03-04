@@ -133,7 +133,7 @@ static void riscv_i_fence(rvvm_hart_t* vm, const uint32_t instruction)
 
 static void riscv_i_zifence(rvvm_hart_t* vm, const uint32_t instruction)
 {
-    kx_fence_on_fence(&vm->machine->kx_fence);
+    kx_fence_on_fence(&vm->kx_fence);
 
     UNUSED(instruction);
 #ifdef USE_JIT
