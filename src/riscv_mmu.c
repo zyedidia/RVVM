@@ -455,10 +455,10 @@ static bool riscv_mmu_op(rvvm_hart_t* vm, vaddr_t addr, void* dest, uint8_t size
 
         if (access == MMU_WRITE) {
             vector_foreach(vm->machine->harts, i) {
-                kx_fence_on_store(&vector_at(vm->machine->harts, i)->kx_fence, paddr);
+                kx_fence_on_store(&vector_at(vm->machine->harts, i)->kx_fence, vector_at(vm->machine->harts, i)->csr.hartid, paddr, vm->registers[REGISTER_PC]);
             }
         } else if (access == MMU_EXEC) {
-            kx_fence_on_exec(&vm->kx_fence, addr, paddr);
+            kx_fence_on_exec(&vm->kx_fence, vm->csr.hartid, addr, paddr);
         }
 
         ptr = riscv_phys_translate(vm, paddr);
