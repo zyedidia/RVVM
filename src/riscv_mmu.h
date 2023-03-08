@@ -112,7 +112,6 @@ static inline vaddr_t riscv_align_addr(vaddr_t addr, size_t size)
  *     Address misalign (optimized on hosts without misalign)
  *     MMIO is accessed (since MMIO regions aren't memory)
  */
-
 static inline bool riscv_fetch_inst(rvvm_hart_t* vm, vaddr_t addr, uint32_t* inst)
 {
     vaddr_t vpn = addr >> PAGE_SHIFT;

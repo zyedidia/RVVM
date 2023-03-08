@@ -30,6 +30,7 @@ static void riscv_priv_system(rvvm_hart_t* vm, const uint32_t instruction)
 {
     switch (instruction) {
         case RV_PRIV_S_ECALL:
+            printf("ecall a0 = %lx, a1 = %lx\n", vm->registers[REGISTER_X10], vm->registers[REGISTER_X11]);
             riscv_trap(vm, TRAP_ENVCALL_UMODE + vm->priv_mode, 0);
             return;
         case RV_PRIV_S_EBREAK:

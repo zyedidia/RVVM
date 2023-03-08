@@ -55,8 +55,10 @@ static bool aclint_mswi_write(rvvm_mmio_dev_t* device, void* data, size_t offset
     if (hartid < vector_size(device->machine->harts)) {
         rvvm_hart_t* vm = vector_at(device->machine->harts, hartid);
         if (read_uint32_le_m(data)) {
+            printf("MSWI %ld\n", hartid);
             riscv_interrupt(vm, INTERRUPT_MSOFTWARE);
         } else {
+            printf("MSWI CLEAR %ld\n", hartid);
             riscv_interrupt_clear(vm, INTERRUPT_MSOFTWARE);
         }
         return true;

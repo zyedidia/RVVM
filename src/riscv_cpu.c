@@ -256,6 +256,8 @@ TSAN_SUPPRESS void riscv_run_till_event(rvvm_hart_t* vm)
             // If we are executing code from MMIO, direct memory fetch fails
             page_addr = vm->tlb[(inst_addr >> PAGE_SHIFT) & TLB_MASK].e << PAGE_SHIFT;
             riscv_emulate(vm, instruction);
-        } else break;
+        } else {
+            break;
+        }
     }
 }
