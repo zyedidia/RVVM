@@ -25,7 +25,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define HART_RUNNING 1
 
 // Set up initial hart context
-void riscv_hart_init(rvvm_hart_t* vm, bool rv64);
+void riscv_hart_init(rvvm_hart_t* vm, bool rv64, rvvm_addr_t mem_base, size_t mem_size);
 
 void riscv_hart_free(rvvm_hart_t* vm);
 

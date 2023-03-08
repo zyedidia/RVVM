@@ -25,9 +25,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "atomics.h"
 #include "bit_ops.h"
 
-void riscv_hart_init(rvvm_hart_t* vm, bool rv64)
+#include "kx_check.h"
+
+void riscv_hart_init(rvvm_hart_t* vm, bool rv64, rvvm_addr_t mem_base, size_t mem_size)
 {
     memset(vm, 0, sizeof(rvvm_hart_t));
+
+    kx_check_init(&vm->check, mem_base, mem_size, KX_CHECK_FENCE);
+
     riscv_tlb_flush(vm);
     vm->priv_mode = PRIVILEGE_MACHINE;
     // Delegate exceptions from M to S

@@ -132,6 +132,9 @@ static void riscv_i_fence(rvvm_hart_t* vm, const uint32_t instruction)
 static void riscv_i_zifence(rvvm_hart_t* vm, const uint32_t instruction)
 {
     UNUSED(instruction);
+
+    kx_check_on_ifence(&vm->check);
+
 #ifdef USE_JIT
     if (rvvm_has_arg("rvjit_harward")) {
         riscv_jit_flush_cache(vm);

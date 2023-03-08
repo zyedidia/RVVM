@@ -1,0 +1,3 @@
+[submodule "src/kchex"]
+	path = src/kchex
+	url = https://github.com/zyedidia/kchex

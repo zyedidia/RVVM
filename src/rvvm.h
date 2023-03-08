@@ -32,6 +32,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "threading.h"
 #include "blk_io.h"
 
+#include "kx_check.h"
+
 #ifdef USE_JIT
 #include "rvjit/rvjit.h"
 #endif
@@ -215,7 +217,9 @@ struct rvvm_hart_t {
     uint8_t priv_mode;
     bool rv64;
     bool trap;
-    
+
+    kx_check_t check;
+
     bool user_traps;
     
     bool lrsc;

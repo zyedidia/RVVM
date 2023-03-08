@@ -246,7 +246,7 @@ $(info Version:     $(GREEN)RVVM $(VERSION)$(RESET))
 $(info $(SPACE))
 
 # Generic compiler flags
-override CFLAGS := -I$(SRCDIR) -DRVVM_VERSION=\"$(VERSION)\" $(CFLAGS)
+override CFLAGS := -I$(SRCDIR) -I$(SRCDIR)/kchex -DRVVM_VERSION=\"$(VERSION)\" $(CFLAGS)
 
 # Conditionally compiled sources, do not build by default
 SRC_cond := $(SRCDIR)/devices/x11window_xlib.c $(SRCDIR)/devices/win32window.c \
@@ -265,7 +265,7 @@ SHARED := $(BUILDDIR)/lib$(NAME)$(LIB_EXT)
 STATIC := $(BUILDDIR)/lib$(NAME).a
 
 # Select sources to compile
-SRC := $(wildcard $(SRCDIR)/*.c $(SRCDIR)/devices/*.c)
+SRC := $(wildcard $(SRCDIR)/*.c $(SRCDIR)/devices/*.c $(SRCDIR)/kchex/*.c)
 # Wipe all platform/config-dependant sources
 SRC := $(filter-out $(SRC_cond),$(SRC))
 

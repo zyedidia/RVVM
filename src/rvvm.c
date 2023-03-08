@@ -306,7 +306,7 @@ PUBLIC rvvm_machine_t* rvvm_create_machine(rvvm_addr_t mem_base, size_t mem_size
     for (size_t i=0; i<hart_count; ++i) {
         vm = safe_new_obj(rvvm_hart_t);
         vector_push_back(machine->harts, vm);
-        riscv_hart_init(vm, rv64);
+        riscv_hart_init(vm, rv64, mem_base, mem_size);
         vm->machine = machine;
         vm->mem = machine->mem;
     }
@@ -733,7 +733,7 @@ PUBLIC rvvm_machine_t* rvvm_create_userland(bool rv64)
 PUBLIC rvvm_cpu_handle_t rvvm_create_user_thread(rvvm_machine_t* machine)
 {
     rvvm_hart_t* vm = safe_new_obj(rvvm_hart_t);
-    riscv_hart_init(vm, machine->rv64);
+    riscv_hart_init(vm, machine->rv64, 0, 0);
     vm->machine = machine;
     vm->mem = machine->mem;
     riscv_switch_priv(vm, PRIVILEGE_MACHINE);

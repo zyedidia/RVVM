@@ -26,6 +26,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 
+#include "kx_check.h"
+
 #define SV32_VPN_BITS     10
 #define SV32_VPN_MASK     0x3FF
 #define SV32_PHYS_BITS    34
@@ -452,6 +454,21 @@ static bool riscv_mmu_op(rvvm_hart_t* vm, vaddr_t addr, void* dest, uint8_t size
 
     if (riscv_mmu_translate(vm, addr, &paddr, access)) {
         //rvvm_info("Hart %p accessing physmem at 0x%08x", vm, paddr);
+
+        switch (access) {
+            case MMU_WRITE:
+                vector_foreach(vm->machine->harts, i) {
+                    kx_check_on_store(&vector_at(vm->machine->harts, i)->check, paddr);
+                }
+                break;
+            case MMU_READ:
+                kx_check_on_load(&vm->check, paddr);
+                break;
+            case MMU_EXEC:
+                kx_check_on_exec(&vm->check, paddr);
+                break;
+        }
+
         ptr = riscv_phys_translate(vm, paddr);
         if (ptr) {
             // Physical address in main memory, cache address translation
